@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# 出力ファイル
+*_merged.md
+images/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# DOCX 一時ファイル
+~$*.docx
+*.docx
