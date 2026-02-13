@@ -9,6 +9,7 @@ venv/
 env/
 
 # 出力ファイル
+*_pdf_md
 *_merged.md
 images/
 
@@ -16,6 +17,7 @@ images/
 .DS_Store
 Thumbs.db
 
-# DOCX 一時ファイル
+# ソースファイル
 ~$*.docx
 *.docx
+*.pdf
