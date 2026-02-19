@@ -4,6 +4,7 @@
 
 - **DOCX**: 変換後、1つのファイルに結合して出力
 - **PDF**: 変換後、個別の .md ファイルとして出力
+- **GAS**: Google ドキュメントから不要タブを除去して別フォルダへ出力
 
 ## セットアップ
 
@@ -40,6 +41,16 @@ python convert_pdf_and_merge.py ./PDFフォルダ -o ./output
 # 画像をファイルとして抽出
 python convert_pdf_and_merge.py ./PDFフォルダ -o ./output --images-dir ./images
 ```
+
+### Google ドキュメント 不要タブ除去（GAS）
+
+`週次会議_evaluate_optimizer.js` は Google Apps Script 用のスクリプトです。
+指定フォルダ内の Google ドキュメントから不要なタブを除去し、別フォルダへ出力します。
+
+1. [Google Apps Script](https://script.google.com/) で新しいプロジェクトを作成
+2. `週次会議_evaluate_optimizer.js` の内容を貼り付け
+3. `CONFIG` の `INPUT_FOLDER_ID` と `OUTPUT_FOLDER_ID` を対象の Google Drive フォルダ ID に変更
+4. `Optimize_Weekly_MTG` 関数を実行
 
 ## オプション
 
