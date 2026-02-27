@@ -1,9 +1,11 @@
 # DOCX / PDF to Markdown
 
-指定ディレクトリ内の Word (.docx) または PDF (.pdf) ファイルを Markdown に変換するスクリプトです。
+指定ディレクトリ内の Word (.docx) または PDF (.pdf) ファイルを変換・結合するスクリプト集です。
 
-- **DOCX**: 変換後、1つのファイルに結合して出力
-- **PDF**: 変換後、個別の .md ファイルとして出力
+- **DOCX → Markdown（個別出力）**: 各 .docx を個別の .md ファイルとして新しいフォルダに出力
+- **DOCX → Markdown（結合出力）**: 変換後、1つの .md ファイルに結合して出力
+- **DOCX → DOCX**: Word ファイルをそのまま1つの .docx に結合
+- **PDF → Markdown**: 変換後、個別の .md ファイルとして出力
 - **GAS**: Google ドキュメントから不要タブを除去して別フォルダへ出力
 
 ## セットアップ
@@ -16,6 +18,19 @@ pip install -r requirements.txt
 
 ## 使い方
 
+### DOCX → Markdown（個別出力）
+
+```bash
+# 基本（元フォルダ名_md に個別の .md ファイルを出力、画像は Base64 埋め込み）
+python convert_docx.py ./ドキュメント選別
+
+# 出力先ディレクトリを指定
+python convert_docx.py ./ドキュメント選別 -o ./output_md
+
+# 画像をファイルとして抽出
+python convert_docx.py ./ドキュメント選別 -o ./output_md --images-dir ./images
+```
+
 ### DOCX → Markdown（結合出力）
 
 ```bash
@@ -27,6 +42,16 @@ python convert_and_merge.py ./ドキュメント選別 -o merged.md
 
 # 画像をファイルとして抽出
 python convert_and_merge.py ./ドキュメント選別 -o merged.md --images-dir ./images
+```
+
+### DOCX 結合（Word → Word）
+
+```bash
+# 基本
+python merge_docx.py ./ドキュメント選別
+
+# 出力ファイル名を指定
+python merge_docx.py ./ドキュメント選別 -o merged.docx
 ```
 
 ### PDF → Markdown（個別出力）
@@ -54,7 +79,15 @@ python convert_pdf_and_merge.py ./PDFフォルダ -o ./output --images-dir ./ima
 
 ## オプション
 
-### DOCX (`convert_and_merge.py`)
+### DOCX 個別出力 (`convert_docx.py`)
+
+| オプション | 説明 | デフォルト |
+|---|---|---|
+| `input_dir` | 変換対象ディレクトリ（必須） | — |
+| `-o`, `--output` | 出力先ディレクトリ | `<ディレクトリ名>_md` |
+| `--images-dir` | 画像の保存先ディレクトリ | なし（Base64 埋め込み） |
+
+### DOCX 結合出力 (`convert_and_merge.py`)
 
 | オプション | 説明 | デフォルト |
 |---|---|---|
@@ -62,6 +95,13 @@ python convert_pdf_and_merge.py ./PDFフォルダ -o ./output --images-dir ./ima
 | `-o`, `--output` | 出力ファイル名 | `<ディレクトリ名>_merged.md` |
 | `--images-dir` | 画像の保存先ディレクトリ | なし（Base64 埋め込み） |
 | `--separator` | ドキュメント間の区切り | `---` |
+
+### DOCX 結合 (`merge_docx.py`)
+
+| オプション | 説明 | デフォルト |
+|---|---|---|
+| `input_dir` | 結合対象ディレクトリ（必須） | — |
+| `-o`, `--output` | 出力ファイル名 | `<ディレクトリ名>_merged.docx` |
 
 ### PDF (`convert_pdf_and_merge.py`)
 
@@ -73,8 +113,19 @@ python convert_pdf_and_merge.py ./PDFフォルダ -o ./output --images-dir ./ima
 
 ## 出力形式
 
-### DOCX
-- 各ファイルがファイル名を `# 見出し` として1つのファイルに結合されます
+### DOCX → Markdown（個別出力）
+- 各 .docx が `<ファイル名>.md` として個別に出力されます
+- 出力先フォルダはデフォルトで `<入力ディレクトリ名>_md`
+- ファイルはファイル名順（昇順）にソートされます
+- Word の一時ファイル（`~$` で始まるファイル）は自動的に除外されます
+
+### DOCX → Markdown（結合出力）
+- 各ファイルがファイル名を `# 見出し` として1つの .md ファイルに結合されます
+- ファイルはファイル名順（昇順）にソートされます
+- Word の一時ファイル（`~$` で始まるファイル）は自動的に除外されます
+
+### DOCX 結合
+- 複数の .docx ファイルを1つの .docx ファイルに結合します
 - ファイルはファイル名順（昇順）にソートされます
 - Word の一時ファイル（`~$` で始まるファイル）は自動的に除外されます
 
@@ -89,3 +140,4 @@ python convert_pdf_and_merge.py ./PDFフォルダ -o ./output --images-dir ./ima
 | [mammoth](https://pypi.org/project/mammoth/) | DOCX → HTML 変換 |
 | [markdownify](https://pypi.org/project/markdownify/) | HTML → Markdown 変換 |
 | [pymupdf4llm](https://pypi.org/project/pymupdf4llm/) | PDF → Markdown 変換 |
+| [docxcompose](https://pypi.org/project/docxcompose/) | DOCX 結合 |

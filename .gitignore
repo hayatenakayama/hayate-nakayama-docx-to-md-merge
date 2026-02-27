@@ -11,6 +11,7 @@ env/
 # 出力ファイル
 *_pdf_md
 *_merged.md
+*_md
 images/
 
 # OS
